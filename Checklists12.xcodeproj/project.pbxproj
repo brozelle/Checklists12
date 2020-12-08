@@ -13,6 +13,7 @@
 		5DFA811D257F26B800DD1749 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5DFA811B257F26B800DD1749 /* Main.storyboard */; };
 		5DFA811F257F26B900DD1749 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5DFA811E257F26B900DD1749 /* Assets.xcassets */; };
 		5DFA8122257F26B900DD1749 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5DFA8120257F26B900DD1749 /* LaunchScreen.storyboard */; };
+		5DFA812D2580300B00DD1749 /* ChecklistItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFA812C2580300B00DD1749 /* ChecklistItem.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		5DFA811E257F26B900DD1749 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5DFA8121257F26B900DD1749 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5DFA8123257F26B900DD1749 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5DFA812C2580300B00DD1749 /* ChecklistItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecklistItem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 				5DFA811E257F26B900DD1749 /* Assets.xcassets */,
 				5DFA8120257F26B900DD1749 /* LaunchScreen.storyboard */,
 				5DFA8123257F26B900DD1749 /* Info.plist */,
+				5DFA812C2580300B00DD1749 /* ChecklistItem.swift */,
 			);
 			path = Checklists12;
 			sourceTree = "<group>";
@@ -140,6 +143,7 @@
 				5DFA811A257F26B800DD1749 /* ChecklistViewController.swift in Sources */,
 				5DFA8116257F26B800DD1749 /* AppDelegate.swift in Sources */,
 				5DFA8118257F26B800DD1749 /* SceneDelegate.swift in Sources */,
+				5DFA812D2580300B00DD1749 /* ChecklistItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
