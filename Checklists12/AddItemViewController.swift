@@ -7,6 +7,14 @@
 
 import UIKit
 
+//Mark:- Delegate Protocol
+protocol AddItemViewControllerDelegate: class {
+    func addItemViewControllerDidCancel(_ controller: AddItemViewController)
+    func addItemViewController(_ controller: AddItemViewController,
+                               didFinishAdding item: ChecklistItem
+  )
+}
+
 class AddItemViewController: UITableViewController, UITextFieldDelegate {
 
     override func viewDidLoad() {
@@ -25,16 +33,25 @@ class AddItemViewController: UITableViewController, UITextFieldDelegate {
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var doneBarButton: UIBarButtonItem!
     
+    weak var delegate: AddItemViewControllerDelegate?
     
     // Mark:- Actions
     @IBAction func cancel() {
-        navigationController?.popViewController(animated: true)
+        
+        //Sends the message back to the delegate.
+        delegate?.addItemViewControllerDidCancel(self)
+        
     }
     
     @IBAction func done() {
         print("Contents of the text field: \(textField.text!)")
         
-        navigationController?.popViewController(animated: true)
+        let item = ChecklistItem()
+        item.text = textField.text!
+        
+        //Sends the message back to the delegate
+        delegate?.addItemViewController(self, didFinishAdding: item)
+        
     }
     
     // Mark:- Table View Delegates

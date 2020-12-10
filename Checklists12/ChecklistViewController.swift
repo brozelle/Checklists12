@@ -7,12 +7,28 @@
 
 import UIKit
 
-class ChecklistViewController: UITableViewController {
+class ChecklistViewController: UITableViewController, AddItemViewControllerDelegate {
+    
+    func addItemViewControllerDidCancel(_ controller: AddItemViewController) {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    func addItemViewController(_ controller: AddItemViewController,
+                               didFinishAdding item: ChecklistItem) {
+        let newRowIndex = items.count
+        items.append(item)
+        
+        let indexPath = IndexPath(row: newRowIndex, section: 0)
+        let indexPaths = [indexPath]
+        tableView.insertRows(at: indexPaths, with: .automatic)
+        
+        navigationController?.popViewController(animated: true)
+    }
     
     var items = [ChecklistItem]()
     
     // MARK:- Actions
-    @IBAction func addItem() {
+/*    @IBAction func addItem() {
         
         let newRowIndex = items.count
         let item = ChecklistItem()
@@ -24,7 +40,7 @@ class ChecklistViewController: UITableViewController {
         tableView.insertRows(at: indexPaths, with: .automatic)
         
     }
-    
+  */
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -117,6 +133,18 @@ class ChecklistViewController: UITableViewController {
         let indexPaths = [indexPath]
         tableView.deleteRows(at: indexPaths,
                              with: .automatic)
+    }
+    
+    // MARK: - Navigation
+    override func prepare(for segue: UIStoryboardSegue,
+                          sender: Any?) {
+      //Give the segue a unique identifier
+      if segue.identifier == "AddItem" {
+        //Whatt is the view controller to be displayed
+        let controller = segue.destination as! AddItemViewController
+        //Set the delegate property
+        controller.delegate = self
+      }
     }
 }
 
