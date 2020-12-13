@@ -9,11 +9,11 @@ import UIKit
 
 class ChecklistViewController: UITableViewController, ItemDetailViewControllerDelegate {
     
-    func addItemViewControllerDidCancel(_ controller: ItemDetailViewController) {
+    func itemDetailViewControllerDidCancel(_ controller: ItemDetailViewController) {
         navigationController?.popViewController(animated: true)
     }
     
-    func addItemViewController(_ controller: ItemDetailViewController,
+    func itemDetailViewController(_ controller: ItemDetailViewController,
                                didFinishAdding item: ChecklistItem) {
         let newRowIndex = items.count
         items.append(item)
@@ -23,9 +23,11 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
         tableView.insertRows(at: indexPaths, with: .automatic)
         
         navigationController?.popViewController(animated: true)
+        
+        saveChecklistItems()
     }
     
-    func addItemViewController(_ controller: ItemDetailViewController,
+    func itemDetailViewController(_ controller: ItemDetailViewController,
                                didFinishEditing item: ChecklistItem) {
       
         if let index = items.firstIndex(of: item) {
@@ -37,9 +39,59 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
         }
       }
       navigationController?.popViewController(animated: true)
+        
+        saveChecklistItems()
     }
     
     var items = [ChecklistItem]()
+    
+    // MARK:- Documents Directory
+    func documentsDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory,
+                                             in: .userDomainMask)
+        return paths[0]
+    }
+    
+    func dataFilePath() -> URL {
+        documentsDirectory().appendingPathComponent("Checklists.plist")
+        
+    }
+    
+    // MARK:- Data file downloading/uploading
+    func saveChecklistItems()  {
+        // create an instance of property encoder
+        let encoder = PropertyListEncoder()
+        // sets up a block of code to catch Swift errors
+        do {
+            // try key word cuts out error
+            let data = try encoder.encode(items)
+            // if this is successful then the data will be written to a file
+            try data.write(to: dataFilePath(),
+                           options: Data.WritingOptions.atomic)
+            // executed if there is an error in the method
+        } catch {
+            // prints the error message
+            print("Error encoding items arry: \(error.localizedDescription)")
+        }
+    }
+    
+    func loadChecklistItems() {
+        //results of dataFilePath() go into a constant
+        let path = dataFilePath()
+        //try to load the contents into a new data object
+        if let data = try? Data(contentsOf: path)
+        {
+            //when checklist.plist file is found entire contents is loaded
+            let decoder = PropertyListDecoder()
+            do {
+                //load the saved items back into items
+                items = try decoder.decode([ChecklistItem].self,
+                                           from: data)
+            } catch {
+                print("Error decoding item arry: \(error.localizedDescription)")
+            }
+        }
+    }
     
     // MARK:- Actions
     
@@ -48,7 +100,7 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
         
         navigationController?.navigationBar.prefersLargeTitles = true
 
-        let item1 = ChecklistItem()
+       /* let item1 = ChecklistItem()
           item1.text = "Walk the dog"
           items.append(item1)
 
@@ -69,6 +121,12 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
           let item5 = ChecklistItem()
           item5.text = "Eat ice cream"
           items.append(item5)
+        */
+        
+        loadChecklistItems()
+        
+        print("Documents folder is \(documentsDirectory())")
+        print("Data file path is \(dataFilePath())")
         
     }
     
@@ -126,6 +184,8 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
         }
         tableView.deselectRow(at: indexPath,
                                animated: true)
+        
+        saveChecklistItems()
     }
 
     override func tableView(_ tableView: UITableView,
@@ -137,6 +197,8 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
         let indexPaths = [indexPath]
         tableView.deleteRows(at: indexPaths,
                              with: .automatic)
+        
+        saveChecklistItems()
     }
     
     // MARK: - Navigation

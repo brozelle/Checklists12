@@ -9,10 +9,10 @@ import UIKit
 
 //Mark:- Delegate Protocol
 protocol ItemDetailViewControllerDelegate: class {
-    func addItemViewControllerDidCancel(_ controller: ItemDetailViewController)
-    func addItemViewController(_ controller: ItemDetailViewController,
+    func itemDetailViewControllerDidCancel(_ controller: ItemDetailViewController)
+    func itemDetailViewController(_ controller: ItemDetailViewController,
                                didFinishAdding item: ChecklistItem)
-    func addItemViewController(_ controller: ItemDetailViewController,
+    func itemDetailViewController(_ controller: ItemDetailViewController,
                                didFinishEditing item: ChecklistItem)
     
 }
@@ -47,7 +47,7 @@ class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
     @IBAction func cancel() {
         
         //Sends the message back to the delegate.
-        delegate?.addItemViewControllerDidCancel(self)
+        delegate?.itemDetailViewControllerDidCancel(self)
         
     }
     
@@ -55,11 +55,11 @@ class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
         
         if let item = itemToEdit {
             item.text = textField.text!
-            delegate?.addItemViewController(self, didFinishEditing: item)
+            delegate?.itemDetailViewController(self, didFinishEditing: item)
         } else {
             let item = ChecklistItem()
             item.text = textField.text!
-            delegate?.addItemViewController(self, didFinishAdding: item)
+            delegate?.itemDetailViewController(self, didFinishAdding: item)
         }
         
         print("Contents of the text field: \(textField.text!)")
@@ -89,6 +89,8 @@ class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
         
         return true
     }
+    
+    
     //handling the clear button
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
         doneBarButton.isEnabled = false
