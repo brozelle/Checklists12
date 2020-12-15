@@ -9,9 +9,32 @@ import Foundation
 
 class DataModel {
     var lists = [Checklist]()
+    var indexOfSelectedChecklist: Int {
+        get {
+            return UserDefaults.standard.integer(forKey: "ChecklistIndex")
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "ChecklistIndex")
+        }
+    }
     
     init() {
         loadChecklists()
+        registerDefaults()
+        handleFirstTime()
+    }
+    
+    func handleFirstTime() {
+        let userDefaults = UserDefaults.standard
+        let firstTime = userDefaults.bool(forKey: "FirstTime")
+        
+        if firstTime {
+            let checklist = Checklist(name: "List")
+            lists.append(checklist)
+            
+            indexOfSelectedChecklist = 0
+            userDefaults.setValue(false, forKey: "FirstTime")
+        }
     }
     
     // MARK:- Documents Directory
@@ -61,6 +84,15 @@ class DataModel {
             }
         }
     }
+    //MARK:- User Defaults
+    
+    //Set the default value
+    func registerDefaults() {
+        let dictionary = [ "ChecklistIndex": -1, "FirstTime": true] as [String: Any]
+        UserDefaults.standard.register(defaults: dictionary)
+    }
+    
+    
     
     
 }

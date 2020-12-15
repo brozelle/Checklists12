@@ -69,17 +69,17 @@
 			isa = PBXGroup;
 			children = (
 				5DD57EE82586AF3C00C1FA10 /* AllListsViewController.swift */,
+				5DFA8115257F26B800DD1749 /* AppDelegate.swift */,
+				5DFA811E257F26B900DD1749 /* Assets.xcassets */,
 				5DD57EEC2586D1AB00C1FA10 /* Checklist.swift */,
 				5DFA812C2580300B00DD1749 /* ChecklistItem.swift */,
 				5DFA8119257F26B800DD1749 /* ChecklistViewController.swift */,
 				5DDFCC0C258845F000EF3DB6 /* DataModel.swift */,
-				5D64443B2580670F00798E0F /* ItemDetailViewController.swift */,
-				5DD57EF02586EEB800C1FA10 /* ListDetailViewController.swift */,
-				5DFA811E257F26B900DD1749 /* Assets.xcassets */,
 				5DFA8123257F26B900DD1749 /* Info.plist */,
-				5DFA811B257F26B800DD1749 /* Main.storyboard */,
+				5D64443B2580670F00798E0F /* ItemDetailViewController.swift */,
 				5DFA8120257F26B900DD1749 /* LaunchScreen.storyboard */,
-				5DFA8115257F26B800DD1749 /* AppDelegate.swift */,
+				5DD57EF02586EEB800C1FA10 /* ListDetailViewController.swift */,
+				5DFA811B257F26B800DD1749 /* Main.storyboard */,
 				5DFA8117257F26B800DD1749 /* SceneDelegate.swift */,
 			);
 			path = Checklists12;
