@@ -100,5 +100,11 @@ class DataModel {
         }
     }
     
-    
+    /*This method gets the current “ChecklistItemID” value from UserDefaults, adds 1 to it, and writes it back to UserDefaults. It returns the previous value to the caller.*/
+    class func nextChecklistItemID() -> Int {
+      let userDefaults = UserDefaults.standard
+      let itemID = userDefaults.integer(forKey: "ChecklistItemID")
+      userDefaults.set(itemID + 1, forKey: "ChecklistItemID")
+      return itemID
+    }
 }

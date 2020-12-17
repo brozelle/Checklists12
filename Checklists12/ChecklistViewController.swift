@@ -13,14 +13,8 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         navigationItem.largeTitleDisplayMode = .never
-
         title = checklist.name
-        
-        //print("Documents folder is \(documentsDirectory())")
-        //print("Data file path is \(dataFilePath())")
-        
     }
     
     func configureCheckmark(for cell: UITableViewCell,
@@ -36,57 +30,9 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
     func configureText(for cell: UITableViewCell,
                        with item: ChecklistItem) {
         let label = cell.viewWithTag(1000) as! UILabel
-        label.text = item.text
+        //label.text = item.text
+        label.text = "\(item.itemID): \(item.text)"
     }
-
-    /*// MARK:- Documents Directory
-    func documentsDirectory() -> URL {
-        let paths = FileManager.default.urls(for: .documentDirectory,
-                                             in: .userDomainMask)
-        return paths[0]
-    }
-    
-    func dataFilePath() -> URL {
-        documentsDirectory().appendingPathComponent("Checklists.plist")
-        
-    }
-    
-    // MARK:- Data file downloading/uploading
-    func saveChecklistItems()  {
-        // create an instance of property encoder
-        let encoder = PropertyListEncoder()
-        // sets up a block of code to catch Swift errors
-        do {
-            // try key word cuts out error
-            let data = try encoder.encode(items)
-            // if this is successful then the data will be written to a file
-            try data.write(to: dataFilePath(),
-                           options: Data.WritingOptions.atomic)
-            // executed if there is an error in the method
-        } catch {
-            // prints the error message
-            print("Error encoding items arry: \(error.localizedDescription)")
-        }
-    }
-    
-    func loadChecklistItems() {
-        //results of dataFilePath() go into a constant
-        let path = dataFilePath()
-        //try to load the contents into a new data object
-        if let data = try? Data(contentsOf: path)
-        {
-            //when checklist.plist file is found entire contents is loaded
-            let decoder = PropertyListDecoder()
-            do {
-                //load the saved items back into items
-                items = try decoder.decode([ChecklistItem].self,
-                                           from: data)
-            } catch {
-                print("Error decoding item arry: \(error.localizedDescription)")
-            }
-        }
-    }
- */
     
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue,

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import UserNotifications
 
 //Mark:- Delegate Protocol
 protocol ItemDetailViewControllerDelegate: class {
@@ -25,10 +26,11 @@ class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
         if let item = itemToEdit {
             title = "Edit Item"
             textField.text = item.text
+            shouldRemindSwitch.isOn = item.shouldRemind
+            datePicker.date = item.dueDate
         }
         doneBarButton.isEnabled = true
         navigationItem.largeTitleDisplayMode = .never
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -39,6 +41,8 @@ class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
     // Mark:- Outlets
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var doneBarButton: UIBarButtonItem!
+    @IBOutlet var shouldRemindSwitch: UISwitch!
+    @IBOutlet var datePicker: UIDatePicker!
     
     weak var delegate: ItemDetailViewControllerDelegate?
     var itemToEdit: ChecklistItem?
@@ -55,16 +59,36 @@ class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
         
         if let item = itemToEdit {
             item.text = textField.text!
+            item.shouldRemind = shouldRemindSwitch.isOn
+            item.dueDate = datePicker.date
+            item.scheduleNotification()
             delegate?.itemDetailViewController(self, didFinishEditing: item)
         } else {
             let item = ChecklistItem()
             item.text = textField.text!
+            item.checked = false
+            item.shouldRemind = shouldRemindSwitch.isOn
+            item.dueDate = datePicker.date
+            item.scheduleNotification()
             delegate?.itemDetailViewController(self, didFinishAdding: item)
         }
         
         print("Contents of the text field: \(textField.text!)")
 
     }
+    
+    @IBAction func shouldRemindToggled(_ switchControl: UISwitch) {
+      
+        textField.resignFirstResponder()
+
+      if switchControl.isOn {
+        let center = UNUserNotificationCenter.current()
+        center.requestAuthorization(options: [.alert, .sound]) {_, _ in
+          // do nothing
+        }
+      }
+    }
+
     
     // Mark:- Table View Delegates
     override func tableView(_ tableView: UITableView,

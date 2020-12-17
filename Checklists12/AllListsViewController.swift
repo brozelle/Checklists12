@@ -1,6 +1,7 @@
 //
 //  AllListsViewController.swift
 //  Checklists12
+//  The AllListViewController is the class for the All Lists Scene
 //
 //  Created by Buck Rozelle on 12/13/20.
 //
@@ -23,12 +24,12 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
         print("Data file path is \(dataModel.dataFilePath())")
 
     }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         navigationController?.delegate = self
-        
         let index = dataModel.indexOfSelectedChecklist
-        //let index = UserDefaults.standard.integer(forKey: "ChecklistIndex")
+        //If there are no lists, then go right to the Checklist Scene.
         if index >= 0 && index < dataModel.lists.count {
             let checklist = dataModel.lists[index]
             performSegue(withIdentifier: "ShowChecklist",
@@ -38,16 +39,15 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        //Loads the data from the Checklist12.plist file.
         tableView.reloadData()
     }
     
-    //tap the row, perform the seque
+    //Tap the row, perform the seque
     override func tableView(_ tableView: UITableView,
                             didSelectRowAt indexPath: IndexPath) {
         
         dataModel.indexOfSelectedChecklist = indexPath.row
-        //UserDefaults.standard.setValue(indexPath.row, forKey: "ChecklistIndex")
-        
         let checklist = dataModel.lists[indexPath.row]
         performSegue(withIdentifier: "ShowChecklist",
                      sender: checklist)
@@ -55,6 +55,7 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
     
    
     //MARK:- Navigation
+    //Specifies which View Controller to open based on the segue.
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ShowChecklist" {
             let controller = segue.destination as! ChecklistViewController
@@ -67,14 +68,13 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
     }
 
     // MARK: - Table view data source
-
-
+    //Display the number of rows in the data model array "lists."
     override func tableView(_ tableView: UITableView,
                             numberOfRowsInSection section: Int) -> Int {
-        
         return dataModel.lists.count
     }
-
+    
+    //Asks for a new cell, configures it, and populates it with default info.
     override func tableView(_ tableView: UITableView,
                             cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell!
@@ -86,17 +86,19 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
         }
         cell.textLabel!.text = "List \(indexPath.row)"
         
-        // Update cell information
+        // Configure the cell.
         let checklist = dataModel.lists[indexPath.row]
           cell.textLabel!.text = checklist.name
           cell.accessoryType = .detailDisclosureButton
         
+        //Configures subtitle.
         let count = checklist.countUncheckedItems()
         if checklist.items.count == 0 {
             cell.detailTextLabel!.text = "(No Items)"
         } else {
         cell.detailTextLabel!.text = count == 0 ? "All Done!" : "\(count) Remaining"
         }
+        //Configures image.
         cell.imageView!.image = UIImage(named: checklist.iconName)
         return cell
     }
@@ -113,11 +115,14 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
     }
     
     // MARK: - View Controller Delegates
+   
+    //For the cancel button.
     func listDetailViewControllerDidCancel(_ controller: ListDetailViewController)
     {
       navigationController?.popViewController(animated: true)
     }
 
+    //After the
     func listDetailViewController(_ controller: ListDetailViewController,
                                   didFinishAdding checklist: Checklist)
     {
